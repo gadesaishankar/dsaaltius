@@ -1,28 +1,37 @@
 import java.util.*;
 public class Main {
-    public static boolean isPalindrome(String s) {
-       
-        String s1 = s.toLowerCase().replaceAll("[^a-z0-9]", "");
-        
-        
-        int left = 0;
-        int right = s1.length() - 1;
-        while (left < right) {
-            if (s1.charAt(left) != s1.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
+    public static int lts(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
         }
-        return true;
+        int[] dp = new int[nums.length];
+        int len = 0; 
+        for (int num : nums) {
+            int i = Arrays.binarySearch(dp, 0, len, num);
+            if (i < 0) {
+                i = -(i + 1);
+            }
+            dp[i] = num; 
+            if (i == len) {
+                len++;
+            }
+        }   
+        return len;
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        System.out.println(isPalindrome(input));
-        System.out.println(isPalindrome("A man, a plan, a canal: Panama")); 
-        System.out.println(isPalindrome("race a car")); 
-        System.out.println(isPalindrome(" "));
+        int l= sc.nextInt();
+        int[] nums = new int[l];
+        for (int i = 0; i < l; i++) {
+            nums[i] = sc.nextInt();
+        }
+        System.out.println("Length of Longest Increasing Subsequence:" + lts(nums));
+        int[] nums1 = {10, 9, 2, 5, 3, 7, 101, 18};
+        System.out.println("LIS length for [10,9,2,5,3,7,101,18]: " + lts(nums1));
+        int[] nums2 = {0, 1, 0, 3, 2, 3};
+        System.out.println("LIS length for [0,1,0,3,2,3]: " + lts(nums2));
+        
+        int[] nums3 = {7, 7, 7, 7, 7, 7, 7};
+        System.out.println("LIS length for [7,7,7,7,7,7,7]: " + lts(nums3));
     }
 } 
